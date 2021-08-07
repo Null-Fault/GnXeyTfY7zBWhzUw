@@ -5,7 +5,7 @@ I’m looking to collaborate on null.\
 
 🌱    🌱\
  🌱  🌱\
-   🌱\
+   🌱
 
 <!---
 GnXeyTfY7zBWhzUw/GnXeyTfY7zBWhzUw is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
