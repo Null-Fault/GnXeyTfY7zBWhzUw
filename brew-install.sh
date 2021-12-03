@@ -23,3 +23,5 @@ brew install --cask vmware-fusion
 brew install --cask kodi
 brew install --cask docker
 brew install --cask nvidia-geforce-now
+brew install --cask sidequest
+brew install --cask steam
