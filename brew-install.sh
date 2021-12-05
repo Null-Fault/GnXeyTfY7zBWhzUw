@@ -26,3 +26,4 @@ brew install --cask nvidia-geforce-now
 brew install --cask sidequest
 brew install --cask steam
 brew install --cask parsec
+brew install --cask microsoft-remote-desktop
