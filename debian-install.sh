@@ -1,6 +1,7 @@
 sudo apt update && sudo apt upgrade -y
 sudo apt install vlc
 sudo apt install keepassxc
+sudo apt install gnome-tweaks
 
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O chrome.deb
 sudo apt install ./chrome.deb
