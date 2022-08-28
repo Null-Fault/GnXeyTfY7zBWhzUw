@@ -3,7 +3,7 @@ sudo dd if=/dev/zero of=/mnt/${SWAPGB}GB.swap bs=1024 count=$(expr ${SWAPGB} \* 
 sudo chmod 600 /mnt/${SWAPGB}GB.swap
 sudo mkswap /mnt/${SWAPGB}GB.swap
 sudo swapon /mnt/${SWAPGB}GB.swap
-echo '/mnt/${SWAPGB}GB.swap swap swap defaults 0 0' | sudo tee -a /etc/fstab
+echo "/mnt/${SWAPGB}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 
 sudo apt update && sudo apt upgrade -y # Update everything first
 sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
