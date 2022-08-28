@@ -10,6 +10,10 @@ sudo apt update && sudo apt upgrade -y # Update everything first
 sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
+# VMware Tools
+sudo apt install open-vm-tools
+sudo apt install open-vm-tools-desktop
+
 # Application installs
 sudo apt install git
 sudo apt install vlc
