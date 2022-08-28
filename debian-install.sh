@@ -11,6 +11,7 @@ sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrad
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
 # Application installs
+sudo apt install git
 sudo apt install vlc
 sudo apt install keepassxc
 sudo apt install gnome-tweaks
