@@ -1,22 +1,63 @@
-# Compatibility
-winget install -e --id Microsoft.VC++2015-2022Redist-x64
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$Apps = @()
+$Required = @(
+    'Microsoft.VC++2015-2022Redist-x64'
+    'Google.Chrome'
+    'Microsoft.PowerShell'
+    'Git.Git'
+    'Microsoft.VisualStudioCode'
+    '7zip.7zip'
+    'Microsoft.RemoteDesktopClient'
+    'KeePassXCTeam.KeePassXC'
+)
+$Apps += $Required
 
-#Browsers
-winget install -e --id Mozilla.Firefox
-winget install -e --id Google.Chrome
+$Optional = @(
+    'VideoLAN.VLC'
+    'Valve.Steam'
+    'Parsec.Parsec'
+    'Nvidia.GeForceNow'
+)
+$Apps += $Optional
 
-#Dev
-winget install -e --id Microsoft.PowerShell
-winget install -e --id Git.Git
-winget install -e --id Microsoft.VisualStudioCode
+$HasPackageManager = Get-AppPackage -name 'Microsoft.DesktopAppInstaller'
+if (!$HasPackageManager -or [version]$HasPackageManager.Version -lt [version]"1.10.0.0") {
+    Add-AppxPackage -Path 'https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx'
 
-#Utilities
-winget install -e --id 7zip.7zip
-winget install -e --id Microsoft.RemoteDesktopClient
-winget install -e --id KeePassXCTeam.KeePassXC
-winget install -e --id VideoLAN.VLC
+    $ReleasesUrl = 'https://api.github.com/repos/microsoft/winget-cli/releases/latest'
 
-#Gaming
-winget install -e --id Valve.Steam
-winget install -e --id Parsec.Parsec
-winget install -e --id Nvidia.GeForceNow
+    $Releases = Invoke-RestMethod -Uri $ReleasesUrl
+    $LatestRelease = $Releases.assets | Where-Object { $_.browser_download_url.EndsWith('msixbundle') } | Select-Object -First 1
+
+    Add-AppxPackage -Path $LatestRelease.browser_download_url
+}
+
+$SettingsPath = Resolve-Path -Path "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
+$SettingsJson = @"
+{
+    "$schema": "https://aka.ms/winget-settings.schema.json",
+
+    // For documentation on these settings, see: https://aka.ms/winget-settings
+    // "source": {
+    //    "autoUpdateIntervalInMinutes": 5
+    // },
+    "telemetry": {
+        "disable": true
+    },
+
+    "installBehavior": {
+        "preferences": {
+            "scope": "machine",
+            "architectures": ["x64"]
+        }
+    }
+}
+"@
+$SettingsJson | Out-File -FilePath $SettingsPath -Force -Encoding utf8
+
+$WinGetPath = Resolve-Path -Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe"
+$WinGetPath = $WinGetPath.Path
+foreach ($App in $Apps) {
+    $AppArg = "install -e --id $App --accept-package-agreements --accept-source-agreements"
+    Start-Process -FilePath $WinGetPath -ArgumentList $AppArg -Wait
+}
