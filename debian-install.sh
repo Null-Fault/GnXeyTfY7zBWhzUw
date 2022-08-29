@@ -2,10 +2,9 @@
 
 #iamwho=${whoami}
 sudogroupcheck="$(groups | grep -c sudo)" 
-if [ $sudogroupcheck -eq 0 ]; then
-echo "Not in sudo!"
+if [ $(groups | grep -c sudo) -eq 0 ]; then
 # su -l -c "adduser $iamwho -G sudo && reboot now" # Run if not a sudoer 
-# su -l -c "adduser $(whoami) -G sudo && reboot now"
+su -l -c "adduser $(whoami) -G sudo" # && reboot now"
 fi
 
 swapgb=4
