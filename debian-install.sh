@@ -38,5 +38,5 @@ sudo apt install /tmp/vscode.deb
 rm /tmp/vscode.deb
 
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
-sudo apt install ./parsec.deb
+sudo apt install /tmp/parsec.deb
 rm /tmp/parsec.deb
