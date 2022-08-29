@@ -7,7 +7,7 @@ try {
 		'Microsoft.PowerShell'
 		'Git.Git'
 		'Microsoft.VisualStudioCode'
-		'7zip.7zip'
+		#'7zip.7zip'
 		'Microsoft.RemoteDesktopClient'
 		'KeePassXCTeam.KeePassXC'
 	)
@@ -19,7 +19,7 @@ try {
 		'Parsec.Parsec'
 		'Nvidia.GeForceNow'
 	)
-	$Apps += $Optional # Comment out if not needed
+	$Apps += $Optional
 
 	$Packages = @()
 	foreach ($App in $Apps) {
@@ -57,7 +57,7 @@ try {
 
 		Add-AppxPackage -Path $LatestRelease.browser_download_url
 	}
-	$SettingsPath = Resolve-Path -Path "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
+	$SettingsPath = Convert-Path -Path "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
 	$SettingsJson = @"
 {
     "$schema": "https://aka.ms/winget-settings.schema.json",
@@ -77,9 +77,9 @@ try {
 }
 "@
 	$SettingsJson | Out-File -FilePath $SettingsPath -Force -Encoding utf8
-	$WinGetPath = Resolve-Path -Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe"
-	$WinGetPath = $winGetPath.ToString()
-	Start-Process -FilePath $WinGetPath -ArgumentList "import -i $($TempFile.ToString())" -Wait
+	$WinGetPath = Convert-Path -Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe"
+	$TempFilePath = $TempFile.ToString() # Get the path
+	Start-Process -FilePath $WinGetPath -ArgumentList "import -i $TempFilePath" -Wait
 } catch {
 	$Err = $_
 	Write-Host $Err.Exception.GetType().FullName
