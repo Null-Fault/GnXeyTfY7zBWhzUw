@@ -1,8 +1,17 @@
-SWAPGB=4
-sudo dd if=/dev/zero of=/mnt/${SWAPGB}GB.swap bs=1024 count=$(expr ${SWAPGB} \* 1024 \* 1024)
-sudo chmod 600 /mnt/${SWAPGB}GB.swap
-sudo mkswap /mnt/${SWAPGB}GB.swap
-sudo swapon /mnt/${SWAPGB}GB.swap
+#!/bin/bash
+
+#iamwho=${whoami}
+if (($(groups | grep -c) = 0)) ; then
+echo "Not in sudo!"
+# su -l -c "adduser $iamwho -G sudo && reboot now" # Run if not a sudoer 
+# su -l -c "adduser $(whoami) -G sudo && reboot now"
+fi
+
+swapgb=4
+sudo dd if=/dev/zero of=/mnt/${swapgb}GB.swap bs=1024 count=$(expr ${swapgb} \* 1024 \* 1024)
+sudo chmod 600 /mnt/${swapgb}GB.swap
+sudo mkswap /mnt/${swapgb}GB.swap
+sudo swapon /mnt/${swapgb}GB.swap
 sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${SWAPGB}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 
