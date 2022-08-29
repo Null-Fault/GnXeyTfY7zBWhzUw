@@ -7,7 +7,7 @@ try {
 		'Microsoft.PowerShell'
 		'Git.Git'
 		'Microsoft.VisualStudioCode'
-		#'7zip.7zip'
+		'7zip.7zip' # 7zip reintsalls everytime. I don't care. Comment out if you care.
 		'Microsoft.RemoteDesktopClient'
 		'KeePassXCTeam.KeePassXC'
 	)
@@ -19,14 +19,14 @@ try {
 		'Parsec.Parsec'
 		'Nvidia.GeForceNow'
 	)
-	$Apps += $Optional
+	$Apps += $Optional # Comment out if not needed. Add a selection function... sometime.
 
 	$Packages = @()
 	foreach ($App in $Apps) {
 		$Packages += @{PackageIdentifier = $App }
 	}
 
-	$WingetExport = [PSCustomObject]@{
+	$WingetExport = [PSCustomObject]@{ # There's no reason to do this except to play with PSCustomObjects
 		'$schema'     = "https://aka.ms/winget-packages.schema.2.0.json"
 		CreationDate  = "2022-08-01T00:00:00.000-00:00"
 		Sources       = @(@{
@@ -58,24 +58,20 @@ try {
 		Add-AppxPackage -Path $LatestRelease.browser_download_url
 	}
 	$SettingsPath = Convert-Path -Path "$env:LOCALAPPDATA\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\settings.json"
-	$SettingsJson = @"
-{
-    "$schema": "https://aka.ms/winget-settings.schema.json",
-    // For documentation on these settings, see: https://aka.ms/winget-settings
-    // "source": {
-    //    "autoUpdateIntervalInMinutes": 5
-    // },
-    "telemetry": {
-        "disable": true
-    },
-    "installBehavior": {
-        "preferences": {
-            "scope": "machine",
-            "architectures": ["x64"]
-        }
-    }
-}
-"@
+	
+	$SettingsJson = [PSCustomObject]@{ # There's no reason to do this except to play with PSCustomObjects
+		'$schema'       = "https://aka.ms/winget-settings.schema.json"
+		telemetry       = @{
+			disable = $true
+		}
+		installBehavior = @{
+			preferences = @{
+				scope         = "machine"
+				architectures = @("x64")
+			}
+		}
+	}
+	$SettingsJson = $SettingsJson | ConvertTo-Json -Depth 10
 	$SettingsJson | Out-File -FilePath $SettingsPath -Force -Encoding utf8
 	$WinGetPath = Convert-Path -Path "$env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\winget.exe"
 	$TempFilePath = $TempFile.ToString() # Get the path
