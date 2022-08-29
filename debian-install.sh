@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#iamwho=${whoami}
-sudogroupcheck="$(groups | grep -c sudo)" 
+# Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-# su -l -c "adduser $iamwho -G sudo && reboot now" # Run if not a sudoer 
 su -l -c "adduser $(whoami) sudo && reboot now"
 fi
 
+# Create a 4GB swap file if no swap in fstab
+if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
 swapgb=4
 sudo dd if=/dev/zero of=/mnt/${swapgb}GB.swap bs=1024 count=$(expr ${swapgb} \* 1024 \* 1024)
 sudo chmod 600 /mnt/${swapgb}GB.swap
@@ -14,6 +14,7 @@ sudo mkswap /mnt/${swapgb}GB.swap
 sudo swapon /mnt/${swapgb}GB.swap
 sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${SWAPGB}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
+fi
 
 sudo apt update && sudo apt upgrade -y # Update everything first
 sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
