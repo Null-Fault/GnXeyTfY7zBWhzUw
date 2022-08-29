@@ -4,7 +4,7 @@
 sudogroupcheck="$(groups | grep -c sudo)" 
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
 # su -l -c "adduser $iamwho -G sudo && reboot now" # Run if not a sudoer 
-su -l -c "adduser $(whoami) sudo" # && reboot now"
+su -l -c "adduser $(whoami) sudo && reboot now"
 fi
 
 swapgb=4
