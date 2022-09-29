@@ -10,6 +10,7 @@ try {
 		'7zip.7zip' # 7zip reintsalls everytime. I don't care. Comment out if you care.
 		'Microsoft.RemoteDesktopClient'
 		'KeePassXCTeam.KeePassXC'
+		'Telerik.Fiddler.Classic'
 	)
 	$Apps += $Required
 
