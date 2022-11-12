@@ -16,6 +16,10 @@ sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${SWAPGB}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 fi
 
+if [ $(cat /etc/sysctl.d/90-swappiness.conf | grep -c "vm.swappiness = 10") -eq 0 ]; then
+echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-swappiness.conf
+fi
+
 sudo apt purge libreoffice*
 sudo apt autoremove
 sudo apt autoclean
