@@ -12,12 +12,12 @@ if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
 fi
 
 if [ $(cat /etc/sysctl.d/90-swappiness.conf | grep -c "vm.swappiness = 10") -eq 0 ]; then
-    echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-swappiness.conf
+    echo "vm.swappiness = 10" | tee /etc/sysctl.d/99-swappiness.conf
 fi
 
-sudo apt autoremove
-sudo apt autoclean
-sudo apt update
-sudo apt upgrade -y # Update everything first
-sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
-sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
+apt autoremove
+apt autoclean
+apt update
+apt upgrade -y # Update everything first
+apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+dpkg-reconfigure -plow unattended-upgrades # Configure it
