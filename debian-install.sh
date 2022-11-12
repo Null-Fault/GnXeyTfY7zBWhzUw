@@ -16,7 +16,11 @@ sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${SWAPGB}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 fi
 
-sudo apt update && sudo apt upgrade -y # Update everything first
+sudo apt purge libreoffice*
+sudo apt autoremove
+sudo apt autoclean
+sudo apt update
+sudo apt upgrade -y # Update everything first
 sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
@@ -25,19 +29,22 @@ sudo apt install open-vm-tools
 sudo apt install open-vm-tools-desktop
 
 # Application installs
-sudo apt install git
-sudo apt install vlc
 sudo apt install keepassxc
 sudo apt install gnome-tweaks
+sudo apt install vlc
+sudo apt install git
 
-wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
-sudo apt install /tmp/chrome.deb
-rm /tmp/chrome.deb
-
+#VS Code
 wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
 sudo apt install /tmp/vscode.deb
 rm /tmp/vscode.deb
 
+#Google Chrome
+wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
+sudo apt install /tmp/chrome.deb
+rm /tmp/chrome.deb
+
+#Parsec Remote
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
 sudo apt install /tmp/parsec.deb
 rm /tmp/parsec.deb
