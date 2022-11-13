@@ -18,6 +18,7 @@ fi
 apt autoremove
 apt autoclean
 apt update
-apt upgrade -y # Update everything first
 apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 dpkg-reconfigure -plow unattended-upgrades # Configure it
+apt upgrade -y # Update everything first
+
