@@ -3,14 +3,14 @@ try {
 	$Apps = @()
 	$Required = @(
 		'Microsoft.VC++2015-2022Redist-x64'
-		'Google.Chrome'
+		'Mozilla.Firefox'
+		# 'Google.Chrome' # V3 Manifest sucks. Chrome sucks.
 		'Microsoft.PowerShell'
 		'Git.Git'
 		'Microsoft.VisualStudioCode'
 		'7zip.7zip' # 7zip reintsalls everytime. I don't care. Comment out if you care.
 		'Microsoft.RemoteDesktopClient'
 		'KeePassXCTeam.KeePassXC'
-		'Telerik.Fiddler.Classic'
 	)
 	$Apps += $Required
 
@@ -19,6 +19,8 @@ try {
 		'Valve.Steam'
 		'Parsec.Parsec'
 		'Nvidia.GeForceNow'
+		'RedHat.VirtViewer'
+		'Telerik.Fiddler.Classic'
 	)
 	$Apps += $Optional # Comment out if not needed. Add a selection function... sometime.
 
