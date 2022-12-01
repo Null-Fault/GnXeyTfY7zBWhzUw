@@ -33,3 +33,20 @@ apt install gcc make pve-headers -y
 apt install unattended-upgrades apt-listchanges -y # Install unattended-upgrades to automatically install updates
 dpkg-reconfigure -plow unattended-upgrades # Configure it
 apt upgrade -y # Update everything first
+
+# K1100M specific
+wget https://us.download.nvidia.com/XFree86/Linux-x86_64/470.161.03/NVIDIA-Linux-x86_64-470.161.03.run
+sh NVIDIA-Linux-x86_64-470.161.03.run # Use default options
+
+cat << EOF >> /etc/modules-load.d/modules.conf
+# Nvidia modules
+nvidia
+nvidia_uvm
+EOF
+
+cat << EOF >> /etc/udev/rules.d/70-nvidia.rules
+KERNEL=="nvidia", RUN+="/bin/bash -c '/usr/bin/nvidia-smi -L && /bin/chmod 666 /dev/nvidia*'"
+KERNEL=="nvidia_uvm", RUN+="/bin/bash -c '/usr/bin/nvidia-modprobe -c0 -u && /bin/chmod 0666 /dev/nvidia-uvm*'"
+EOF
+
+update-initramfs -u -k all
