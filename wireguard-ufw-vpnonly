@@ -1,7 +1,15 @@
 # This installs ufw and wireguard, configures so only local traffic and traffic over the VPN is allowed via port 51820.
 
+
 apt update && apt upgrade -y
+
+# Bullseye
 apt install openresolv ufw wireguard curl  -y
+
+# Buster 
+# echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list
+# apt update
+# apt install resolvconf ufw wireguard curl -y
 
 ufw reset
 ufw enable
