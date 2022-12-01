@@ -61,3 +61,19 @@ EOF
 update-initramfs -u -k all
 
 reboot now
+
+
+# Obtain numbers for lxc.cgroup.devices.allow from ls -l /dev/nvidia*
+
+cat << EOF >> /some/path/to/lxc/container/config # CHANGE THIS FILE PATH TO PATH OF LXC CONTAINER
+# Allow cgroup access
+lxc.cgroup.devices.allow: c 195:* rwm
+lxc.cgroup.devices.allow: c 234:* rwm
+
+# Pass through device files
+lxc.mount.entry: /dev/nvidia0 dev/nvidia0 none bind,optional,create=file
+lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file
+lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+EOF
