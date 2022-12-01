@@ -29,7 +29,7 @@ EOF
 apt autoremove
 apt autoclean
 apt update
-apt install gcc pve-headers
+apt install gcc make pve-headers -y
 apt install unattended-upgrades apt-listchanges -y # Install unattended-upgrades to automatically install updates
 dpkg-reconfigure -plow unattended-upgrades # Configure it
 apt upgrade -y # Update everything first
