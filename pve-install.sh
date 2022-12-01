@@ -15,10 +15,21 @@ if [ $(cat /etc/sysctl.d/90-swappiness.conf | grep -c "vm.swappiness = 10") -eq 
     echo "vm.swappiness = 10" | tee /etc/sysctl.d/99-swappiness.conf
 fi
 
+# Change to regular updates
+rm /etc/apt/sources.list.d/pve-enterprise.list
+rm /etc/apt/sources.list.d/pve-no-subscription.list
+
+cat << EOF >> /etc/apt/sources.list.d/pve-no-subscription.list
+# PVE pve-no-subscription repository provided by proxmox.com,
+# NOT recommended for production use
+deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+EOF
+
+
 apt autoremove
 apt autoclean
 apt update
-apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+apt install unattended-upgrades apt-listchanges -y # Install unattended-upgrades to automatically install updates
 dpkg-reconfigure -plow unattended-upgrades # Configure it
 apt upgrade -y # Update everything first
 
