@@ -2,7 +2,12 @@
 
 # https://theorangeone.net/posts/lxc-nvidia-gpu-passthrough/
 
+apt update
+apt upgrade -y
+apt install gcc make -y
+
 # K1100M specific
+
 wget https://us.download.nvidia.com/XFree86/Linux-x86_64/470.161.03/NVIDIA-Linux-x86_64-470.161.03.run
 
 # Disable nouveau driver, just copying exactly what the Nvidia installer would make
