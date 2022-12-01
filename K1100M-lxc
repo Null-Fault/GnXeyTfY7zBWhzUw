@@ -16,6 +16,8 @@ reboot now
 
 sh NVIDIA-Linux-x86_64-470.161.03.run --no-kernel-module # Use default options
 
+# Obtain numbers for lxc.cgroup.devices.allow from ls -l /dev/nvidia*
+
 cat << EOF >> /some/path/to/lxc/container/config # CHANGE THIS FILE PATH
 # Allow cgroup access
 lxc.cgroup.devices.allow: c 195:* rwm
@@ -27,3 +29,4 @@ lxc.mount.entry: /dev/nvidiactl dev/nvidiactl none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-uvm dev/nvidia-uvm none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-modeset dev/nvidia-modeset none bind,optional,create=file
 lxc.mount.entry: /dev/nvidia-uvm-tools dev/nvidia-uvm-tools none bind,optional,create=file
+EOF
