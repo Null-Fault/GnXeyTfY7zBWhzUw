@@ -25,7 +25,6 @@ cat << EOF >> /etc/apt/sources.list.d/pve-no-subscription.list
 deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
 EOF
 
-
 apt autoremove
 apt autoclean
 apt update
