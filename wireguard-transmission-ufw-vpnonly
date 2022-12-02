@@ -1,7 +1,7 @@
 # This installs ufw and wireguard, configures so only local traffic and traffic over the VPN is allowed via port 51820.
 
 # Create media group
-groupadd -g 1111 media
+groupadd -g 1111 media # Transmission, Sonarr, Radarr
 
 # Updates
 apt update && apt upgrade -y
@@ -87,6 +87,15 @@ cat << EOF >> /etc/transmission-daemon/settings.json
 EOF
 usermod -aG media debian-transmission
 service transmission-daemon start
+
+# Sonarr
+apt install gnupg
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 2009837CBFFD68F45BC180471F4F90DE2A9B4BF8
+echo "deb https://apt.sonarr.tv/debian buster main" | tee /etc/apt/sources.list.d/sonarr.list
+apt update
+apt install sonarr # Set group as media
+
+# Radarr
 
 # Bullseye
 apt install openresolv ufw wireguard curl  -y
