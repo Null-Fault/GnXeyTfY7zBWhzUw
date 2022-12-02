@@ -1,0 +1,115 @@
+# This installs ufw and wireguard, configures so only local traffic and traffic over the VPN is allowed via port 51820.
+
+# Create media group
+groupadd -g 1111 media
+
+# Updates
+apt update && apt upgrade -y
+
+# Install Transmission
+apt install transmission-daemon -y
+service transmission-daemon stop
+rm /etc/transmission-daemon/settings.json
+cat << EOF >> /etc/transmission-daemon/settings.json
+{
+    "alt-speed-down": 50,
+    "alt-speed-enabled": false,
+    "alt-speed-time-begin": 540,
+    "alt-speed-time-day": 127,
+    "alt-speed-time-enabled": false,
+    "alt-speed-time-end": 1020,
+    "alt-speed-up": 50,
+    "bind-address-ipv4": "0.0.0.0",
+    "bind-address-ipv6": "::",
+    "blocklist-enabled": false,
+    "blocklist-url": "http://www.example.com/blocklist",
+    "cache-size-mb": 4,
+    "dht-enabled": true,
+    "download-dir": "/var/lib/transmission-daemon/downloads",
+    "download-limit": 100,
+    "download-limit-enabled": 0,
+    "download-queue-enabled": true,
+    "download-queue-size": 5,
+    "encryption": 1,
+    "idle-seeding-limit": 30,
+    "idle-seeding-limit-enabled": false,
+    "incomplete-dir": "/var/lib/transmission-daemon/Downloads",
+    "incomplete-dir-enabled": false,
+    "lpd-enabled": false,
+    "max-peers-global": 200,
+    "message-level": 1,
+    "peer-congestion-algorithm": "",
+    "peer-id-ttl-hours": 6,
+    "peer-limit-global": 200,
+    "peer-limit-per-torrent": 50,
+    "peer-port": 51413,
+    "peer-port-random-high": 65535,
+    "peer-port-random-low": 49152,
+    "peer-port-random-on-start": false,
+    "peer-socket-tos": "default",
+    "pex-enabled": true,
+    "port-forwarding-enabled": false,
+    "preallocation": 1,
+    "prefetch-enabled": true,
+    "queue-stalled-enabled": true,
+    "queue-stalled-minutes": 30,
+    "ratio-limit": 2,
+    "ratio-limit-enabled": false,
+    "rename-partial-files": true,
+    "rpc-authentication-required": true,
+    "rpc-bind-address": "0.0.0.0",
+    "rpc-enabled": true,
+    "rpc-host-whitelist": "",
+    "rpc-host-whitelist-enabled": true,
+    "rpc-password": "transmission",
+    "rpc-port": 9091,
+    "rpc-url": "/transmission/",
+    "rpc-username": "transmission",
+    "rpc-whitelist": "127.0.0.1,192.168.1.*",
+    "rpc-whitelist-enabled": true,
+    "scrape-paused-torrents-enabled": true,
+    "script-torrent-done-enabled": false,
+    "script-torrent-done-filename": "",
+    "seed-queue-enabled": false,
+    "seed-queue-size": 10,
+    "speed-limit-down": 100,
+    "speed-limit-down-enabled": false,
+    "speed-limit-up": 100,
+    "speed-limit-up-enabled": false,
+    "start-added-torrents": true,
+    "trash-original-torrent-files": false,
+    "umask": 18,
+    "upload-limit": 100,
+    "upload-limit-enabled": 0,
+    "upload-slots-per-torrent": 14,
+    "utp-enabled": true
+}
+EOF
+usermod -aG media debian-transmission
+service transmission-daemon start
+
+# Bullseye
+apt install openresolv ufw wireguard curl  -y
+
+# Buster 
+# echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list
+# apt update
+# apt install resolvconf ufw wireguard curl -y
+
+ufw reset
+ufw enable
+ufw allow in to 192.168.1.0/24 # Local network access. Restrict for greater security
+ufw allow out to 192.168.1.0/24 # Local network access. Restrict for greater security
+ufw allow out to any port 51820 proto udp # Allow Wireguard on 51820. You can do specific IP here.
+ufw default deny outgoing # Deny all out
+ufw default deny incoming # Deny all in
+ufw allow out on wg0 from any to any # Allow out on wg0 network interface (VPN only)
+#ufw allow in on wg0 from any to any # If enabling external access through the vpn
+ufw reload
+
+# Add the wg0 profile
+
+# Auto start wg0 profile
+systemctl enable --now wg-quick@wg0
+
+# curl ipinfo.io # Test VPN
