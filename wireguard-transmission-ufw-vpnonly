@@ -88,20 +88,9 @@ EOF
 usermod -aG media debian-transmission
 service transmission-daemon start
 
-# Sonarr
-# https://sonarr.tv/#downloads-v3-linux
-apt install gnupg
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 2009837CBFFD68F45BC180471F4F90DE2A9B4BF8
-echo "deb https://apt.sonarr.tv/debian buster main" | tee /etc/apt/sources.list.d/sonarr.list
-apt update
-apt install sonarr # Set group as media
-
-# Radarr
-# https://wiki.servarr.com/radarr/installation#linux
-
 
 # Bullseye
-apt install openresolv ufw wireguard curl  -y
+apt install openresolv ufw wireguard curl -y
 
 # Buster 
 # echo 'deb http://deb.debian.org/debian buster-backports main contrib non-free' > /etc/apt/sources.list.d/buster-backports.list
@@ -125,3 +114,5 @@ ufw reload
 systemctl enable --now wg-quick@wg0
 
 # curl ipinfo.io # Test VPN
+
+# Setup https://wiki.servarr.com/install-script
