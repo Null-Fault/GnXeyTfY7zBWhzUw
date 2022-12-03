@@ -113,6 +113,10 @@ ufw default deny outgoing # Deny all out
 ufw default deny incoming # Deny all in
 ufw allow out on wg0 from any to any # Allow out on wg0 network interface (VPN only)
 #ufw allow in on wg0 from any to any # If enabling external access through the vpn
+# Transmission
+# Change port to relevant port
+ufw allow in on wg0 to any port 58250 proto udp
+ufw allow in on wg0 to any port 58250 proto udp
 ufw reload
 
 # Add the wg0 profile
