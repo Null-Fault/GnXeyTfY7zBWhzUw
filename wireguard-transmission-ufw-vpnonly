@@ -106,8 +106,8 @@ apt install openresolv ufw wireguard curl -y
 
 ufw reset
 ufw enable
-ufw allow in to 192.168.1.0/24 # Local network access. Restrict for greater security
-ufw allow out to 192.168.1.0/24 # Local network access. Restrict for greater security
+ufw allow in to 192.168.0.0/16 # Local network access. Restrict for greater security
+ufw allow out to 192.168.0.0/16 # Local network access. Restrict for greater security
 ufw allow out to any port 51820 proto udp # Allow Wireguard on 51820. You can do specific IP here.
 ufw default deny outgoing # Deny all out
 ufw default deny incoming # Deny all in
