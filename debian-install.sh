@@ -2,7 +2,7 @@
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-su -l -c "apt update && apt install sudo && adduser $(whoami) sudo && reboot now"
+su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
 fi
 
 # Create a 4GB swap file if no swap in fstab
