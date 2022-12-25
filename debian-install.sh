@@ -16,16 +16,16 @@ sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${swapgb}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 fi
 
-if [ $(cat /etc/sysctl.d/90-swappiness.conf | grep -c "vm.swappiness = 10") -eq 0 ]; then
-echo "vm.swappiness = 10" | sudo tee /etc/sysctl.d/99-swappiness.conf
+if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0 ]; then
+echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
 fi
 
-sudo apt purge libreoffice*
-sudo apt autoremove
-sudo apt autoclean
-sudo apt update
-sudo apt upgrade -y # Update everything first
-sudo apt install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+sudo apt -y purge libreoffice*
+sudo apt -y autoremove
+sudo apt -y autoclean
+sudo apt -y update
+sudo apt -y upgrade # Update everything first
+sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
 # VMware Tools
