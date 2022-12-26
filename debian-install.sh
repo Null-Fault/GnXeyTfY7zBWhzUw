@@ -21,6 +21,7 @@ echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
 fi
 
 sudo apt -y purge libreoffice*
+sudo apt -y purge gnome-games
 sudo apt -y autoremove
 sudo apt -y autoclean
 sudo apt -y update
@@ -28,27 +29,23 @@ sudo apt -y upgrade # Update everything first
 sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
-# VMware Tools
-sudo apt install open-vm-tools
-sudo apt install open-vm-tools-desktop
-
 # Application installs
-sudo apt install keepassxc
-sudo apt install gnome-tweaks
-sudo apt install vlc
-sudo apt install git
+sudo apt -y install keepassxc
+sudo apt -y install gnome-tweaks
+sudo apt -y install vlc
+sudo apt -y install git
 
 #VS Code
 wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
-sudo apt install /tmp/vscode.deb
+sudo apt -y install /tmp/vscode.deb
 rm /tmp/vscode.deb
 
 #Google Chrome
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
-sudo apt install /tmp/chrome.deb
+sudo apt -y install /tmp/chrome.deb
 rm /tmp/chrome.deb
 
 #Parsec Remote
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
-sudo apt install /tmp/parsec.deb
+sudo apt -y install /tmp/parsec.deb
 rm /tmp/parsec.deb
