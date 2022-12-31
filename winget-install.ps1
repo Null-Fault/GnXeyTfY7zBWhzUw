@@ -2,9 +2,9 @@ try {
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 	$Apps = @()
 	$Required = @(
-		'Microsoft.VC++2015-2022Redist-x64'
+		'Microsoft.VCRedist.2015+.x64'
 		'Mozilla.Firefox'
-		# 'Google.Chrome' # V3 Manifest sucks. Chrome sucks.
+		'Google.Chrome' # V3 Manifest sucks. Chrome sucks.
 		'Microsoft.PowerShell'
 		'Git.Git'
 		'Microsoft.VisualStudioCode'
