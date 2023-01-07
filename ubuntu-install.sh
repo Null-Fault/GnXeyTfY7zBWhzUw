@@ -1,8 +1,18 @@
-sudo apt update && sudo apt upgrade -y
-sudo apt install vlc
-sudo apt install keepassxc
-sudo apt install steam
-sudo apt install gnome-tweaks
+if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0 ]; then
+echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
+fi
+
+sudo apt -y update
+sudo apt -y upgrade # Upgrade everything first
+sudo apt -y autoremove
+sudo apt -y autoclean
+sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
+
+#sudo apt -y install vlc
+#sudo apt -y install keepassxc
+#sudo apt -y install steam
+#sudo apt install gnome-tweaks
 
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O chrome.deb
 sudo apt install ./chrome.deb
