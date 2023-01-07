@@ -26,6 +26,7 @@ sudo apt -y autoremove
 sudo apt -y autoclean
 sudo apt -y update
 sudo apt -y upgrade # Update everything first
+# sudo apt -y install qemu-guest-agent
 sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
