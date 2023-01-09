@@ -1,3 +1,38 @@
+#!/bin/bash
+if [ "$EUID" -ne 0 ]; then 
+    echo "Please run as root"
+    exit
+fi
+
+PUID=1001
+UGID=1111
+TZ=
+SERVER_CITIES=
+WIREGUARD_PRIVATE_KEY=
+WIREGUARD_ADDRESSES=
+SLSKD_SLSK_USERNAME=
+SLSKD_SLSK_PASSWORD=
+SLSKD_SLSK_LISTEN_PORT=
+
+DOCKER_COMPOSE_FOLDER=~/docker
+
+if [ $(cat /etc/group | grep -c ${UGID}) -eq 0 ]; then
+    groupadd -g ${UGID} media
+fi
+
+if [ $(cat /etc/group | grep $(whoami) | grep -c ${UGID}) -eq 0 ]; then
+    usermod -a -G media $(whoami)
+fi
+
+mkdir -p ${DOCKER_COMPOSE_FOLDER}
+touch ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
+cd ${DOCKER_COMPOSE_FOLDER}
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/gluetun
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/config
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/downloads
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/app
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/music
+cat << EOF >> ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
 version: '2.1'
 services:
   gluetun:
@@ -30,8 +65,8 @@ services:
     image: linuxserver/transmission
     container_name: transmission
     environment:
-      - PUID=1001
-      - UGID=1111
+      - PUID=${PUID}
+      - UGID=${UGID}
       - TZ=${TZ}
     volumes:
       - ./transmission/config:/config
@@ -58,3 +93,4 @@ services:
       - gluetun
     network_mode: service:gluetun
     restart: unless-stopped
+EOF
