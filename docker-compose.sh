@@ -7,12 +7,18 @@ fi
 PUID=1001
 UGID=1111
 TZ=
+
 SERVER_CITIES=
 WIREGUARD_PRIVATE_KEY=
 WIREGUARD_ADDRESSES=
+
 SLSKD_SLSK_USERNAME=
 SLSKD_SLSK_PASSWORD=
 SLSKD_SLSK_LISTEN_PORT=
+# SLSKD_DOWNLOADS_DIR=
+# SLSKD_INCOMPLETE_DIR=
+
+TRANSMISSION_PEERPORT=
 
 DOCKER_COMPOSE_FOLDER=~/docker
 
@@ -26,7 +32,6 @@ fi
 
 mkdir -p ${DOCKER_COMPOSE_FOLDER}
 touch ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
-cd ${DOCKER_COMPOSE_FOLDER}
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/gluetun
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/config
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/downloads
@@ -53,10 +58,10 @@ services:
     volumes:
       - ./gluetun:/gluetun
     ports:
-      - 51820:51820/udp # wireguard
-      - 12345:12345/udp # transmission port forward
-      - 12345:12345 # transmission port forward
-      - 12345:12345 # slskd port forward
+      #- 51820:51820/udp # wireguard
+      - ${TRANSMISSION_PEERPORT}:${TRANSMISSION_PEERPORT}/udp # transmission port forward
+      - ${TRANSMISSION_PEERPORT}:${TRANSMISSION_PEERPORT} # transmission port forward
+      - ${SLSKD_SLSK_LISTEN_PORT}:${SLSKD_SLSK_LISTEN_PORT} # slskd port forward
       - 9091:9091 # transmission
       - 5000:5000 # slskd
     restart: unless-stopped
@@ -68,6 +73,7 @@ services:
       - PUID=${PUID}
       - UGID=${UGID}
       - TZ=${TZ}
+      - PEERPORT=${TRANSMISSION_PEERPORT}
     volumes:
       - ./transmission/config:/config
       - ./transmission/downloads:/downloads
@@ -86,6 +92,7 @@ services:
       - SLSKD_SHARED_DIR=/music
       - SLSKD_UPLOAD_SLOTS=10
       - SLSKD_UPLOAD_SPEED_LIMIT=10000
+    user: ${PUID}:${UGID}
     volumes:
       - ./slskd/app:/app
       - ./slskd/music:/music
