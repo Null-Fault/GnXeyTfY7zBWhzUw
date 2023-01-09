@@ -8,30 +8,35 @@ PUID=1001
 UGID=1111
 TZ=
 
+# Wireguard
 SERVER_CITIES=
 WIREGUARD_PRIVATE_KEY=
 WIREGUARD_ADDRESSES=
 
+# slskd
 SLSKD_SLSK_USERNAME=
 SLSKD_SLSK_PASSWORD=
 SLSKD_SLSK_LISTEN_PORT=
 # SLSKD_DOWNLOADS_DIR=
 # SLSKD_INCOMPLETE_DIR=
 
+# Transmission
 TRANSMISSION_PEERPORT=
 
+# Docker location
 DOCKER_COMPOSE_FOLDER=~/docker
-chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
-chmod -R a=,a+rX,u+w,g+w ${DOCKER_COMPOSE_FOLDER}
 
+# Create group on host if it does not exist, name it media
 if [ $(cat /etc/group | grep -c ${UGID}) -eq 0 ]; then
     groupadd -g ${UGID} media
 fi
 
+# Add current user (root) to media group if not part of it
 if [ $(cat /etc/group | grep $(whoami) | grep -c ${UGID}) -eq 0 ]; then
     usermod -a -G media $(whoami)
 fi
 
+# Create DOCKER_COMPOSE_FOLDER if it doesn't exist
 mkdir -p ${DOCKER_COMPOSE_FOLDER}
 touch ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/gluetun
@@ -39,6 +44,11 @@ mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/config
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/downloads
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/app
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/music
+
+# Set permissions for DOCKER_COMPOSE_FOLDER
+chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
+chmod -R a=,a+rX,u+w,g+w ${DOCKER_COMPOSE_FOLDER}
+
 cat << EOF >> ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
 version: '2.1'
 services:
