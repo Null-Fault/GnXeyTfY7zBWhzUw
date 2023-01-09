@@ -21,6 +21,8 @@ SLSKD_SLSK_LISTEN_PORT=
 TRANSMISSION_PEERPORT=
 
 DOCKER_COMPOSE_FOLDER=~/docker
+chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
+chmod -R a=,a+rX,u+w,g+w ${DOCKER_COMPOSE_FOLDER}
 
 if [ $(cat /etc/group | grep -c ${UGID}) -eq 0 ]; then
     groupadd -g ${UGID} media
