@@ -1,4 +1,21 @@
 #!/bin/bash
+
+cat << EOF >> /etc/pve/lxc/199.conf 
+arch: amd64
+cores: 2
+features: keyctl=1,nesting=1
+hostname: docker70
+memory: 4096
+mp0: /mnt/usb1/Storage/Music,mp=/mnt/usb1/Storage/Music,ro=1
+net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.1.1,hwaddr=0E:C3:01:EE:AA:EC,ip=192.168.1.70/24,type=veth
+ostype: debian
+rootfs: local-lvm:vm-107-disk-0,size=16G
+swap: 512
+unprivileged: 1
+lxc.cgroup.devices.allow: c 10:200 rwm
+lxc.mount.entry: /dev/net dev/net none bind,create=dir
+EOF
+
 if [ "$EUID" -ne 0 ]; then 
     echo "Please run as root"
     exit
