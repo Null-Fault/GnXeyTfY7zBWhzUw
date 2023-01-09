@@ -1,0 +1,60 @@
+version: '2.1'
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    # sysctls:
+    #   - net.ipv6.conf.all.disable_ipv6=0
+    #   - net.ipv4.conf.all.src_valid_mark=1
+    cap_add:
+      - NET_ADMIN
+    devices:
+       - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - SERVER_CITIES=${SERVER_CITIES}
+    volumes:
+      - ./gluetun:/gluetun
+    ports:
+      - 51820:51820/udp # wireguard
+      - 12345:12345/udp # transmission port forward
+      - 12345:12345 # transmission port forward
+      - 12345:12345 # slskd port forward
+      - 9091:9091 # transmission
+      - 5000:5000 # slskd
+    restart: unless-stopped
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1001
+      - UGID=1111
+      - TZ=${TZ}
+    volumes:
+      - ./transmission/config:/config
+      - ./transmission/downloads:/downloads
+    depends_on:
+      - gluetun
+    network_mode: service:gluetun
+    restart: unless-stopped
+
+  slskd:
+    image: slskd/slskd
+    container_name: slskd
+    environment:
+      - SLSKD_SLSK_USERNAME=${SLSKD_SLSK_USERNAME}
+      - SLSKD_SLSK_PASSWORD=${SLSKD_SLSK_PASSWORD}
+      - SLSKD_SLSK_LISTEN_PORT=${SLSKD_SLSK_LISTEN_PORT}
+      - SLSKD_SHARED_DIR=/music
+      - SLSKD_UPLOAD_SLOTS=10
+      - SLSKD_UPLOAD_SPEED_LIMIT=10000
+    volumes:
+      - ./slskd/app:/app
+      - ./slskd/music:/music
+    depends_on:
+      - gluetun
+    network_mode: service:gluetun
+    restart: unless-stopped
