@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "tmpfs /tmp tmpfs defaults 0 0" | tee -a /etc/fstab
+
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
 su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
