@@ -1,6 +1,17 @@
 #!/bin/bash
 
-echo "tmpfs /tmp tmpfs defaults 0 0" | suod tee -a /etc/fstab
+echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
+
+rm /etc/apt/sources.list
+cat << EOF >> /etc/apt/sources.list
+deb http://deb.debian.org/debian bullseye main contrib
+deb http://deb.debian.org/debian bullseye-updates main contrib
+# security updates
+deb http://security.debian.org bullseye-security main contrib
+# backports
+deb http://deb.debian.org/debian bullseye-backports main contrib
+EOF
+
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
