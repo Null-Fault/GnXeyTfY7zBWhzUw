@@ -1,6 +1,9 @@
 #!/bin/bash
 
+echo "tmpfs /tmp tmpfs defaults 0 0" | tee -a /etc/fstab
+
 # Create a 4GB swap file if no swap in fstab
+# Don't use with ZFS!
 if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
     swapgb=4
     dd if=/dev/zero of=/mnt/${swapgb}GB.swap bs=1024 count=$(expr ${swapgb} \* 1024 \* 1024)
@@ -11,6 +14,7 @@ if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
     echo "/mnt/${swapgb}GB.swap swap swap defaults 0 0" | tee -a /etc/fstab
 fi
 
+# Don't use with ZFS!
 if [ $(cat /etc/sysctl.d/90-swappiness.conf | grep -c "vm.swappiness = 10") -eq 0 ]; then
     echo "vm.swappiness = 10" | tee /etc/sysctl.d/99-swappiness.conf
 fi
