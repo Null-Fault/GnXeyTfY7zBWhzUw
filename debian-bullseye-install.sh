@@ -1,6 +1,7 @@
 #!/bin/bash
-apt install gnome-core --no-install-suggests --install-recommends # Minimal install
-echo "tmpfs /tmp tmpfs defaults 0 0" | tee -a /etc/fstab
+sudo apt update && sudo apt -y upgrade
+sudo apt install gnome-core --no-install-suggests --install-recommends # Minimal install
+echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
 
 rm /etc/apt/sources.list
 cat << EOF >> /etc/apt/sources.list
