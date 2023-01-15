@@ -1,0 +1,9 @@
+sudo apt update && sudo apt -y upgrade
+sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+sudo dpkg-reconfigure -plow unattended-upgrades
+sudo apt install gnome-core --no-install-suggests --install-recommends # Minimal install
+echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab # Put tmp to RAM cause why not. 
+
+if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0 ]; then
+echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf # Only swap if you have to. Change to 10 if your machine is RAM starved.
+fi
