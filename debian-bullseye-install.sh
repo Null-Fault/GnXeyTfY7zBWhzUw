@@ -5,12 +5,12 @@ echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
 
 rm /etc/apt/sources.list
 cat << EOF >> /etc/apt/sources.list
-deb http://deb.debian.org/debian bullseye main contrib
-deb http://deb.debian.org/debian bullseye-updates main contrib
+deb http://deb.debian.org/debian bullseye main contrib non-free
+deb http://deb.debian.org/debian bullseye-updates main contrib non-free
 # security updates
-deb http://security.debian.org bullseye-security main contrib
+deb http://security.debian.org bullseye-security main contrib non-free
 # backports
-deb http://deb.debian.org/debian bullseye-backports main contrib
+deb http://deb.debian.org/debian bullseye-backports main contrib non-free
 EOF
 
 
