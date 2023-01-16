@@ -29,13 +29,13 @@ cat << EOF >> /etc/apt/sources.list.d/pve-no-subscription.list
 deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
 EOF
 
-apt autoremove
-apt autoclean
-apt update
-apt install gcc make pve-headers -y
-apt install unattended-upgrades apt-listchanges -y # Install unattended-upgrades to automatically install updates
+apt -y autoremove
+apt -y autoclean
+apt -y update
+apt -y install gcc make pve-headers 
+apt -y install unattended-upgrades apt-listchanges  # Install unattended-upgrades to automatically install updates
 dpkg-reconfigure -plow unattended-upgrades # Configure it
-apt upgrade -y # Update everything first
+apt -y upgrade  # Update everything first
 
 # K1100M specific
 wget https://us.download.nvidia.com/XFree86/Linux-x86_64/470.161.03/NVIDIA-Linux-x86_64-470.161.03.run
