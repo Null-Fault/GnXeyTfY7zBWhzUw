@@ -60,6 +60,7 @@ mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/config
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/downloads
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/app
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/music
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/jellyseerr/config
 
 # Set permissions for DOCKER_COMPOSE_FOLDER
 chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
@@ -70,6 +71,8 @@ version: "3.0"
 services:
   gluetun:
     image: qmcgaw/gluetun
+    container_name: gluetun
+    # line above must be uncommented to allow external containers to connect. See https://github.com/qdm12/gluetun/wiki/Connect-a-container-to-gluetun#external-container-to-gluetun
     # sysctls:
     #   - net.ipv6.conf.all.disable_ipv6=0
     #   - net.ipv4.conf.all.src_valid_mark=1
@@ -124,5 +127,17 @@ services:
       - ./slskd/app:/app
       - ./slskd/music:/music
     network_mode: service:gluetun
+    restart: unless-stopped
+    
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+        - LOG_LEVEL=debug
+        - TZ=${TZ}
+    ports:
+        - 5055:5055
+    volumes:
+        - ./jellyseerr/config:/app/config
     restart: unless-stopped
 EOF
