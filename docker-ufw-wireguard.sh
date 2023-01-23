@@ -5,6 +5,8 @@ apt -y install curl
 apt -y install ufw
 apt -y install wireguard-tools
 
+ufw reset
+ufw enable
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh ./get-docker.sh
