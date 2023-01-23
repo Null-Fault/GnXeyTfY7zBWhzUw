@@ -61,6 +61,7 @@ mkdir -p ${DOCKER_COMPOSE_FOLDER}/transmission/downloads
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/app
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/slskd/music
 mkdir -p ${DOCKER_COMPOSE_FOLDER}/jellyseerr/config
+mkdir -p ${DOCKER_COMPOSE_FOLDER}/jellyseerr/config
 
 # Set permissions for DOCKER_COMPOSE_FOLDER
 chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
@@ -96,6 +97,7 @@ services:
       - ${SLSKD_SLSK_LISTEN_PORT}:${SLSKD_SLSK_LISTEN_PORT} # slskd port forward
       - 9091:9091 # transmission
       - 5000:5000 # slskd
+      - 7878:7878 # radarr
     restart: unless-stopped
 
   transmission:
@@ -126,6 +128,18 @@ services:
     volumes:
       - ./slskd/app:/app
       - ./slskd/music:/music
+    network_mode: service:gluetun
+    restart: unless-stopped
+    
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${UGID}
+      - TZ=${TZ}
+    volumes:
+      - ./radarr/config:/config
     network_mode: service:gluetun
     restart: unless-stopped
     
