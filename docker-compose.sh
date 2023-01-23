@@ -3,10 +3,9 @@
 cat << EOF >> /etc/pve/lxc/199.conf 
 arch: amd64
 cores: 2
-features: keyctl=1,nesting=1
+features: nesting=1
 hostname: docker70
 memory: 4096
-mp0: /mnt/usb1/Storage/Music,mp=/mnt/usb1/Storage/Music,ro=1
 net0: name=eth0,bridge=vmbr0,firewall=1,gw=192.168.1.1,hwaddr=0E:C3:01:EE:AA:EC,ip=192.168.1.70/24,type=veth
 ostype: debian
 rootfs: local-lvm:vm-107-disk-0,size=16G
@@ -21,7 +20,7 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
-PUID=1001
+PUID=1000
 UGID=1111
 TZ=
 
@@ -67,7 +66,7 @@ chown -R ${PUID}:${UGID} ${DOCKER_COMPOSE_FOLDER}
 chmod -R a=,a+rX,u+w,g+w ${DOCKER_COMPOSE_FOLDER}
 
 cat << EOF >> ${DOCKER_COMPOSE_FOLDER}/docker-compose.yml
-version: '2.1'
+version: "3.0"
 services:
   gluetun:
     image: qmcgaw/gluetun
@@ -84,6 +83,7 @@ services:
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
       - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
       - SERVER_CITIES=${SERVER_CITIES}
+      - FIREWALL_VPN_INPUT_PORTS=${TRANSMISSION_PEERPORT},${SLSKD_SLSK_LISTEN_PORT}
     volumes:
       - ./gluetun:/gluetun
     ports:
@@ -106,8 +106,6 @@ services:
     volumes:
       - ./transmission/config:/config
       - ./transmission/downloads:/downloads
-    depends_on:
-      - gluetun
     network_mode: service:gluetun
     restart: unless-stopped
 
@@ -125,8 +123,6 @@ services:
     volumes:
       - ./slskd/app:/app
       - ./slskd/music:/music
-    depends_on:
-      - gluetun
     network_mode: service:gluetun
     restart: unless-stopped
 EOF
