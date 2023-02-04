@@ -1,8 +1,13 @@
 #!/bin/bash
 sudo apt update && sudo apt -y upgrade
 
-rm /etc/apt/sources.list
-cat << EOF >> /etc/apt/sources.list
+# Add to sudo group and reboot for safe measure
+if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
+  su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
+fi
+
+sudo rm /etc/apt/sources.list
+cat << EOF | sudo tee /etc/apt/sources.list
 deb http://deb.debian.org/debian/ bullseye main non-free contrib
 deb-src http://deb.debian.org/debian/ bullseye main non-free contrib
 
@@ -18,12 +23,6 @@ deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free
 deb http://deb.debian.org/debian bullseye-backports main contrib non-free
 deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free
 EOF
-
-
-# Add to sudo group and reboot for safe measure
-if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-  su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
-fi
 
 # Create a 4GB swap file if no swap in fstab
 if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
