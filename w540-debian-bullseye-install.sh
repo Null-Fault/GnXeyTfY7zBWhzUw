@@ -80,3 +80,11 @@ rm /tmp/chrome.deb
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
 sudo apt -y install /tmp/parsec.deb
 rm /tmp/parsec.deb
+
+
+# w540 specific
+sudo apt -y install nvidia-driver firmware-misc-nonfree
+
+# Steam
+sudo apt -y install steam
+sudo apt -y install mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
