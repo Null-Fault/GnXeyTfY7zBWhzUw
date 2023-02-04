@@ -1,7 +1,7 @@
 #!/bin/bash
 sudo apt update && sudo apt -y upgrade
 sudo apt install gnome-core --no-install-suggests --install-recommends # Minimal install
-echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
+
 
 rm /etc/apt/sources.list
 cat << EOF >> /etc/apt/sources.list
@@ -29,6 +29,9 @@ sudo swapon /mnt/${swapgb}GB.swap
 sudo cp /etc/fstab ~/fstab.backup
 echo "/mnt/${swapgb}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 fi
+
+# Put tmp on tmpfs
+echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
 
 if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0 ]; then
 echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
