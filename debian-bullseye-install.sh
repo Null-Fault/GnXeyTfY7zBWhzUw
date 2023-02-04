@@ -1,55 +1,68 @@
 #!/bin/bash
 sudo apt update && sudo apt -y upgrade
-sudo apt install gnome-core --no-install-suggests --install-recommends # Minimal install
-
 
 rm /etc/apt/sources.list
 cat << EOF >> /etc/apt/sources.list
-deb http://deb.debian.org/debian bullseye main contrib non-free
-deb http://deb.debian.org/debian bullseye-updates main contrib non-free
-# security updates
-deb http://security.debian.org bullseye-security main contrib non-free
-# backports
+deb http://deb.debian.org/debian/ bullseye main non-free contrib
+deb-src http://deb.debian.org/debian/ bullseye main non-free contrib
+
+deb http://security.debian.org/debian-security bullseye-security main contrib non-free
+deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
+
+# bullseye-updates, to get updates before a point release is made;
+# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
+deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
+deb-src http://deb.debian.org/debian/ bullseye-updates main contrib non-free
+
+# Backports
 deb http://deb.debian.org/debian bullseye-backports main contrib non-free
+deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free
 EOF
 
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
+  su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
 fi
 
 # Create a 4GB swap file if no swap in fstab
 if [ $(cat /etc/fstab | grep -c swap) -eq 0 ]; then
-swapgb=4
-sudo dd if=/dev/zero of=/mnt/${swapgb}GB.swap bs=1024 count=$(expr ${swapgb} \* 1024 \* 1024)
-sudo chmod 600 /mnt/${swapgb}GB.swap
-sudo mkswap /mnt/${swapgb}GB.swap
-sudo swapon /mnt/${swapgb}GB.swap
-sudo cp /etc/fstab ~/fstab.backup
-echo "/mnt/${swapgb}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
+  swapgb=4
+  sudo dd if=/dev/zero of=/mnt/${swapgb}GB.swap bs=1024 count=$(expr ${swapgb} \* 1024 \* 1024)
+  sudo chmod 600 /mnt/${swapgb}GB.swap
+  sudo mkswap /mnt/${swapgb}GB.swap
+  sudo swapon /mnt/${swapgb}GB.swap
+  sudo cp /etc/fstab ~/fstab.backup
+  echo "/mnt/${swapgb}GB.swap swap swap defaults 0 0" | sudo tee -a /etc/fstab
 fi
 
 # Put tmp on tmpfs
 echo "tmpfs /tmp tmpfs defaults 0 0" | sudo tee -a /etc/fstab
 
 if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0 ]; then
-echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
+  echo "vm.swappiness = 1" | sudo tee /etc/sysctl.d/99-swappiness.conf
 fi
 
+# Remove libreoffice and gnome-games
 sudo apt -y purge libreoffice*
 sudo apt -y purge gnome-games
 sudo apt -y autoremove
 sudo apt -y autoclean
+
+# Update everything first
 sudo apt -y update
-sudo apt -y upgrade # Update everything first
+sudo apt -y upgrade 
 # sudo apt -y install qemu-guest-agent
 sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
+# Linux headers
+sudo apt -y install linux-headers-$(dpkg --print-architecture)
+
 # Application installs
-sudo apt -y install keepassxc
 sudo apt -y install gnome-tweaks
+sudo apt -y install gnome-shell-extension-dashtodock
+sudo apt -y install keepassxc
 sudo apt -y install vlc
 sudo apt -y install git
 
