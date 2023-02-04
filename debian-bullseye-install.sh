@@ -6,6 +6,7 @@ if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
   su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
 fi
 
+# Set sources main contrib non-free and add backports
 sudo rm /etc/apt/sources.list
 cat << EOF | sudo tee /etc/apt/sources.list
 deb http://deb.debian.org/debian/ bullseye main non-free contrib
@@ -66,17 +67,34 @@ sudo apt -y install keepassxc
 sudo apt -y install vlc
 sudo apt -y install git
 
-#VS Code
-wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
-sudo apt -y install /tmp/vscode.deb
-rm /tmp/vscode.deb
+# VS Code
+# wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
+# sudo apt -y install /tmp/vscode.deb
+# rm /tmp/vscode.deb
 
-#Google Chrome
+# Google Chrome
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
 sudo apt -y install /tmp/chrome.deb
 rm /tmp/chrome.deb
 
-#Parsec Remote
+# Microsoft Powershell and VSCode
+sudo apt install -y curl gnupg apt-transport-https
+
+# Import the public repository GPG keys
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+# Register the Microsoft repo
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft.list'
+# Register the VS Code repo
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt update
+
+# Install PowerShell
+sudo apt -y install powershell
+# Install VS Code
+sudo apt -y install code
+
+# Parsec Remote
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
 sudo apt -y install /tmp/parsec.deb
 rm /tmp/parsec.deb
