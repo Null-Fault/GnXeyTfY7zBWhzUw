@@ -50,6 +50,7 @@ sudo apt -y autoremove
 sudo apt -y autoclean
 
 # Update everything first
+sudo dpkg --add-architecture i386 # For Steam
 sudo apt -y update
 sudo apt -y upgrade 
 # sudo apt -y install qemu-guest-agent
