@@ -84,6 +84,13 @@ rm /tmp/parsec.deb
 # w540 specific
 sudo apt -y install nvidia-driver firmware-misc-nonfree
 
+# Remove intel xorg package
+sudo apt -y remove xserver-xorg-video-intel
+
+# Fixes screen tearing
+echo "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
+sudo update-initramfs -u
+
 # Auto set max performance mode since it stutters without it (GpuPowerMizerMode=2 (consistent performance) also seems like it may be okay)
 cat << EOF | tee ~/.config/autostart/nvidia-powermizer.desktop
 [Desktop Entry]
