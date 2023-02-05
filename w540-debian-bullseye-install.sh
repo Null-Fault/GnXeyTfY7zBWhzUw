@@ -81,9 +81,16 @@ wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.d
 sudo apt -y install /tmp/parsec.deb
 rm /tmp/parsec.deb
 
-
 # w540 specific
 sudo apt -y install nvidia-driver firmware-misc-nonfree
+
+# Auto set max performance mode since it stutters without it (GpuPowerMizerMode=2 (consistent performance) also seems like it may be okay)
+cat << EOF | tee ~/.config/autostart/nvidia-powermizer.desktop
+[Desktop Entry]
+Type=Application
+Name=Set Nvidia GpuPowerMizerMode
+Exec=nvidia-settings -a [gpu:0]/GpuPowerMizerMode=1
+EOF
 
 # Steam
 sudo apt -y install steam
