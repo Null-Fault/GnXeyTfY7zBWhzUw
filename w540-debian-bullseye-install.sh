@@ -66,11 +66,17 @@ sudo apt install -y keepassxc
 sudo apt install -y vlc
 sudo apt install -y git
 
-#VS Code
-wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
-sudo apt install -y /tmp/vscode.deb
-rm /tmp/vscode.deb
+# Microsoft Powershell and VSCode
+sudo apt install -y curl gnupg apt-transport-https
 
+# Import the public repository GPG keys
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+# Register the Microsoft repo
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft.list'
+# Register the VS Code repo
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+sudo apt update
 #Google Chrome
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
 sudo apt install -y /tmp/chrome.deb
