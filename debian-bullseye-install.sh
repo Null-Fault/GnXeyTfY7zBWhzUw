@@ -3,7 +3,9 @@ sudo apt update && sudo apt upgrade -y
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-  su -l -c "apt update -y && apt install -y sudo && adduser $(whoami) sudo && reboot now"
+  echo -e "Login as root to install sudo and add your current user to sudo.\nPlease run the script again after reboot.\n"
+  read -p "Press [Enter] key to continue..."
+  su -l -c "apt update -y && apt install -y sudo && adduser $(whoami) sudo && reboot now "
 fi
 
 sudo rm /etc/apt/sources.list
