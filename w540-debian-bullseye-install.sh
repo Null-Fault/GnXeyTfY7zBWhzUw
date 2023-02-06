@@ -1,9 +1,9 @@
 #!/bin/bash
-sudo apt update && sudo apt -y upgrade
+sudo apt update && sudo apt upgrade -y
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-  su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
+  su -l -c "apt update -y && apt install -y sudo && adduser $(whoami) sudo && reboot now"
 fi
 
 sudo rm /etc/apt/sources.list
@@ -43,49 +43,52 @@ if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0
 fi
 
 # Remove libreoffice and gnome-games
-sudo apt -y purge libreoffice*
-sudo apt -y purge gnome-games
-sudo apt -y autoremove
-sudo apt -y autoclean
+sudo apt purge -y libreoffice*
+sudo apt purge -y gnome-games
+sudo apt autoremove -y
+sudo apt autoclean -y
 
 # Update everything first
 sudo dpkg --add-architecture i386 # For Steam
-sudo apt -y update
-sudo apt -y upgrade 
-# sudo apt -y install qemu-guest-agent
-sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+sudo apt update -y
+sudo apt upgrade -y 
+# sudo apt install -y qemu-guest-agent
+sudo apt install -y unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
 # Linux headers
-sudo apt -y install linux-headers-$(dpkg --print-architecture)
+sudo apt install -y linux-headers-$(dpkg --print-architecture)
 
 # Application installs
-sudo apt -y install gnome-tweaks
-sudo apt -y install gnome-shell-extension-dashtodock
-sudo apt -y install keepassxc
-sudo apt -y install vlc
-sudo apt -y install git
+sudo apt install -y gnome-tweaks
+sudo apt install -y gnome-shell-extension-dashtodock
+sudo apt install -y keepassxc
+sudo apt install -y vlc
+sudo apt install -y git
 
 #VS Code
 wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
-sudo apt -y install /tmp/vscode.deb
+sudo apt install -y /tmp/vscode.deb
 rm /tmp/vscode.deb
 
 #Google Chrome
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
-sudo apt -y install /tmp/chrome.deb
+sudo apt install -y /tmp/chrome.deb
 rm /tmp/chrome.deb
 
 #Parsec Remote
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
-sudo apt -y install /tmp/parsec.deb
+sudo apt install -y /tmp/parsec.deb
 rm /tmp/parsec.deb
 
 # w540 specific
-sudo apt -y install nvidia-driver firmware-misc-nonfree
+sudo apt install -y nvidia-driver firmware-misc-nonfree
+
+# For glxinfo and glxgears for testing GPU
+sudo apt install -y mesa-utils
 
 # Remove intel xorg package
-sudo apt -y remove xserver-xorg-video-intel
+sudo apt remove -y xserver-xorg-video-intel
 
 # Fixes screen tearing
 echo "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
@@ -100,5 +103,5 @@ Exec=nvidia-settings -a [gpu:0]/GpuPowerMizerMode=1
 EOF
 
 # Steam
-sudo apt -y install steam
-sudo apt -y install mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
+sudo apt install -y steam
+sudo apt install -y mesa-vulkan-drivers libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
