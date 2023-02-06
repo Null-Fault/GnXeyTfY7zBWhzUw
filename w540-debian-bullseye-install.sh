@@ -76,7 +76,10 @@ curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft.list'
 # Register the VS Code repo
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-sudo apt update
+sudo apt update -y
+sudo apt install -y code
+sudo apt install -y powershell
+
 #Google Chrome
 wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
 sudo apt install -y /tmp/chrome.deb
@@ -88,15 +91,17 @@ sudo apt install -y /tmp/parsec.deb
 rm /tmp/parsec.deb
 
 # w540 specific
+
+# Remove intel xorg package
+sudo apt remove -y xserver-xorg-video-intel
+
+# Install Nvidia driver (470 series is best as it works with K1100M whereas later versions do not)
 sudo apt install -y nvidia-driver firmware-misc-nonfree
 
 # For glxinfo and glxgears for testing GPU
 sudo apt install -y mesa-utils
 
-# Remove intel xorg package
-sudo apt remove -y xserver-xorg-video-intel
-
-# Fixes screen tearing
+# Fix screen tearing
 echo "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
 sudo update-initramfs -u
 
