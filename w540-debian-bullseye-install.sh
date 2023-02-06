@@ -107,7 +107,8 @@ echo "options nvidia-drm modeset=1" | sudo tee -a /etc/modprobe.d/nvidia.conf
 sudo update-initramfs -u
 
 # Auto set max performance mode since it stutters without it (GpuPowerMizerMode=2 (consistent performance) also seems like it may be okay)
-cat << EOF | tee ~/.config/autostart/nvidia-powermizer.desktop
+mkdir -p  ~/.config/autostart/
+cat << EOF > ~/.config/autostart/nvidia-powermizer.desktop
 [Desktop Entry]
 Type=Application
 Name=Set Nvidia GpuPowerMizerMode
@@ -152,12 +153,13 @@ Section "Screen"
 EndSection
 EOF
 
-cat << EOF | tee ~/.xsessionrc:
+cat << EOF > ~/.xsessionrc
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 xrandr --dpi 96
 EOF
 chmod +x ~/.xsessionrc
+
 
 # Gnome Display Manager configuration
 cat << EOF | sudo tee /usr/share/gdm/greeter/autostart/optimus.desktop
