@@ -1,12 +1,11 @@
 #!/bin/bash
-sudo apt update && sudo apt -y upgrade
+sudo apt update && sudo apt upgrade -y
 
 # Add to sudo group and reboot for safe measure
 if [ $(groups $(whoami)| grep -c sudo) -eq 0 ]; then
-  su -l -c "apt -y update && apt -y install sudo && adduser $(whoami) sudo && reboot now"
+  su -l -c "apt update -y && apt install -y sudo && adduser $(whoami) sudo && reboot now"
 fi
 
-# Set sources main contrib non-free and add backports
 sudo rm /etc/apt/sources.list
 cat << EOF | sudo tee /etc/apt/sources.list
 deb http://deb.debian.org/debian/ bullseye main non-free contrib
@@ -44,38 +43,28 @@ if [ $(cat /etc/sysctl.d/99-swappiness.conf | grep -c "vm.swappiness = 1") -eq 0
 fi
 
 # Remove libreoffice and gnome-games
-sudo apt -y purge libreoffice*
-sudo apt -y purge gnome-games
-sudo apt -y autoremove
-sudo apt -y autoclean
+sudo apt purge -y libreoffice*
+sudo apt purge -y gnome-games
+sudo apt autoremove -y
+sudo apt autoclean -y
 
 # Update everything first
 sudo dpkg --add-architecture i386 # For Steam
-sudo apt -y update
-sudo apt -y upgrade 
-# sudo apt -y install qemu-guest-agent
-sudo apt -y install unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
+sudo apt update -y
+sudo apt upgrade -y 
+# sudo apt install -y qemu-guest-agent
+sudo apt install -y unattended-upgrades apt-listchanges # Install unattended-upgrades to automatically install updates
 sudo dpkg-reconfigure -plow unattended-upgrades # Configure it
 
 # Linux headers
-sudo apt -y install linux-headers-$(dpkg --print-architecture)
+sudo apt install -y linux-headers-$(dpkg --print-architecture)
 
 # Application installs
-sudo apt -y install gnome-tweaks
-sudo apt -y install gnome-shell-extension-dashtodock
-sudo apt -y install keepassxc
-sudo apt -y install vlc
-sudo apt -y install git
-
-# VS Code
-# wget 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64' -O /tmp/vscode.deb
-# sudo apt -y install /tmp/vscode.deb
-# rm /tmp/vscode.deb
-
-# Google Chrome
-wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
-sudo apt -y install /tmp/chrome.deb
-rm /tmp/chrome.deb
+sudo apt install -y gnome-tweaks
+sudo apt install -y gnome-shell-extension-dashtodock
+sudo apt install -y keepassxc
+sudo apt install -y vlc
+sudo apt install -y git
 
 # Microsoft Powershell and VSCode
 sudo apt install -y curl gnupg apt-transport-https
@@ -87,14 +76,16 @@ curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-bullseye-prod bullseye main" > /etc/apt/sources.list.d/microsoft.list'
 # Register the VS Code repo
 sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-sudo apt update
+sudo apt update -y
+sudo apt install -y code
+sudo apt install -y powershell
 
-# Install PowerShell
-sudo apt -y install powershell
-# Install VS Code
-sudo apt -y install code
+#Google Chrome
+wget 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb' -O /tmp/chrome.deb
+sudo apt install -y /tmp/chrome.deb
+rm /tmp/chrome.deb
 
-# Parsec Remote
+#Parsec Remote
 wget 'https://builds.parsecgaming.com/package/parsec-linux.deb' -O /tmp/parsec.deb
-sudo apt -y install /tmp/parsec.deb
+sudo apt install -y /tmp/parsec.deb
 rm /tmp/parsec.deb
