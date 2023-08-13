@@ -1,0 +1,59 @@
+{
+    "telemetry.telemetryLevel": "off",
+    "files.defaultLanguage": "powershell",
+    "files.trimTrailingWhitespace": true,
+    "editor.guides.bracketPairs": true,
+    "powershell.codeFormatting.preset": "OTBS",
+    "powershell.promptToUpdatePowerShell": false,
+    "terminal.integrated.defaultProfile.linux": "pwsh",
+    "terminal.integrated.defaultProfile.osx": "pwsh",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "Windows PowerShell": {
+            "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        }
+    },
+    "git.autofetch": "all",
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.untrustedFiles": "open",
+    "remoteHub.commitDirectlyWarning": "off",
+    "[yaml]": {
+        "editor.autoIndent": "advanced"
+    },
+    "azure.tenant": "",
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": false,
+        "scminput": false
+    },
+    "dev.containers.dockerPath": "podman-remote",
+    // This area is for the semantic highlighting
+    "editor.semanticHighlighting.enabled": true, // default value is: "configuredByTheme"
+    "[powershell]": {
+        "editor.semanticHighlighting.enabled": true,
+    },
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true,
+        "rules": {
+            "parameter": "#6998ff", // 648dff
+            "variable": "#d79eff", // d99ff9 # This is almost perfect
+        }
+    }
+}
