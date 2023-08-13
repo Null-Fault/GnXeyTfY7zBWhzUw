@@ -52,7 +52,7 @@
     "editor.semanticTokenColorCustomizations": {
         "enabled": true,
         "rules": {
-            "parameter": "#6998ff", // 648dff
+            "parameter": "#879bff", // 648dff
             "variable": "#d79eff", // d99ff9 # This is almost perfect
         }
     }
