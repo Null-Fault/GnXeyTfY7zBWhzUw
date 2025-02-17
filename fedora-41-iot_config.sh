@@ -1,5 +1,9 @@
+# Update flatpaks
+flatpak update -y
+# Update rpm-opstree
+sudo rpm-ostree upgrade --reboot
 # Install qemu-guest-agent
-rpm-ostree install --allow-inactive --assumeyes --reboot qemu-guest-agent
+sudo rpm-ostree install --allow-inactive --assumeyes --reboot qemu-guest-agent
 # Configure auto uopdates
 echo AutomaticUpdatePolicy=apply | sudo tee -a /etc/rpm-ostreed.conf
 sudo rpm-ostree reload
