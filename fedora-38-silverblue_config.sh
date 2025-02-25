@@ -1,6 +1,9 @@
 # Upgrade ostree
 rpm-ostree upgrade --reboot
 
+# # Install qemu-guest-agent
+# rpm-ostree install --allow-inactive --assumeyes --reboot qemu-guest-agent
+
 # Update flatpaks
 flatpak update -y
 
