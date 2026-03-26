@@ -2,7 +2,7 @@
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 # Set default packaging preference to Flathubt
-gsettings set org.gnome.software packaging-format-preference "['flatpak:flathub', 'flatpak', 'rpm']"t
+gsettings set org.gnome.software packaging-format-preference "['flatpak:flathub', 'flatpak:fedora', 'rpm']"
 
 # Update flatpaks
 flatpak update -y
@@ -26,5 +26,10 @@ rpm-ostree install distrobox
 # flatpak install flathub com.visualstudio.code
 # flatpak install flathub com.visualstudio.code.tool.podman
 
+# Steam
 # flatpak install flathub com.valvesoftware.Steam
+# udev rules for Steam
+# sudo curl -fsSL https://raw.githubusercontent.com/ValveSoftware/steam-devices/refs/heads/master/60-steam-input.rules -o /etc/udev/rules.d/60-steam-input.rules
+# sudo curl -fsSL https://raw.githubusercontent.com/ValveSoftware/steam-devices/refs/heads/master/60-steam-vr.rules -o /etc/udev/rules.d/60-steam-vr.rules
+
 # flatpak install flathub com.github.iwalton3.jellyfin-media-player
