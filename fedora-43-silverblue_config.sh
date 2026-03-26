@@ -19,9 +19,12 @@ rpm-ostree install distrobox
 
 
 # Install new flatpaks
+# If using laptopspeakers
+# flatpak install flathub com.github.wwmm.easyeffects
+
+# Firefox
 # flatpak install flathub org.mozilla.firefox
 # flatpak install flathub com.google.Chrome
-# flatpak install flathub org.keepassxc.KeePassXC
 # flatpak install flathub com.github.tchx84.Flatseal
 # flatpak install flathub com.visualstudio.code
 # flatpak install flathub com.visualstudio.code.tool.podman
