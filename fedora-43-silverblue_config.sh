@@ -1,3 +1,12 @@
+# Install Flathub
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# Set default packaging preference to Flathubt
+gsettings set org.gnome.software packaging-format-preference "['flatpak:flathub', 'flatpak', 'rpm']"t
+
+# Update flatpaks
+flatpak update -y
+
 # Upgrade ostree
 rpm-ostree upgrade --reboot
 
@@ -8,8 +17,6 @@ rpm-ostree install distrobox
 # # Install qemu-guest-agent
 # rpm-ostree install --allow-inactive --assumeyes --reboot qemu-guest-agent
 
-# Update flatpaks
-flatpak update -y
 
 # Install new flatpaks
 # flatpak install flathub org.mozilla.firefox
