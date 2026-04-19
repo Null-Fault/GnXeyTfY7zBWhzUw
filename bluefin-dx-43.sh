@@ -1,13 +1,21 @@
 # Flatpaks
 
 # Install Steam
+flatpak install flathub com.valvesoftware.Steam
+# Install RetroDeck
+flatpak install flathub net.retrodeck.retrodeck
 
-# Install RetroDeck 
+# Bluefin default Gnome scaling
+# org.gnome.mutter experimental-features ['scale-monitor-framebuffer', 'xwayland-native-scaling']
+# To set back
+# gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer', 'xwayland-native-scaling']"
+# Remove Gnome scaling
+gsettings set org.gnome.mutter experimental-features "[]"
 
-gsettings set org.gnome.mutter experimental-features '["scale-monitor-framebuffer", "xwayland-native-scaling"]'
-flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam
-flatpak override --user --talk-name=org.freedesktop.Flatpak net.retrodeck.retrodeck
+#
 flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.valvesoftware.Steam
+flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam
+# flatpak override --user --talk-name=org.freedesktop.Flatpak net.retrodeck.retrodeck
 # RetroDeck can add itself to Steam
 # However the shortcut doesn't work
 # Change it to:
