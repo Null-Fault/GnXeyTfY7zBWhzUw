@@ -7,6 +7,7 @@
 
 flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam
 flatpak override --user --talk-name=org.freedesktop.Flatpak net.retrodeck.retrodeck
+flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.valvesoftware.Steam
 # RetroDeck can add itself to Steam
 # However the shortcut doesn't work
 # Change it to:
