@@ -30,7 +30,7 @@ flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.va
 # Target: /usr/bin/flatpak-spawn
 # Launch Options: --host flatpak run net.retrodeck.retrodeck
 
-
+# Select "ProtonGE (Flatpak)" under Compatibility 
 # For running Steam apps in Gamescope, use this in the launch properties of Steam:
 # gamescope -f -H 2256 -S stretch -- %command% 
 # For running Steam apps in Gamescope and MangoHud, use this in the launch properties of Steam:
