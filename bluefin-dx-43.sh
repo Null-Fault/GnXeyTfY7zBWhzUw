@@ -36,7 +36,9 @@ flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.va
 # gamescope --fullscreen -W 2256 -H 1504 -- %command%
 # gamescope --fullscreen -W 2256 -H 1504 --mangoapp -- %command%
 # Gamescope rendering the game session at half resolution and outputting at native
-# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 751 --mangoapp -- %command%
+# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 --mangoapp -- %command%
+# Gamescope with FSR
+# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 -F fsr --mangoapp -- %command%
 # For running Steam apps in Gamescope and MangoHud, use this in the launch properties of Steam:
 # gamescope --fullscreen -H 2256 -S stretch --mangoapp -- %command%
 # To enable MangoHud for all Steam games:
