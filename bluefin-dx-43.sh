@@ -2,6 +2,9 @@
 
 # Install Steam
 flatpak install flathub com.valvesoftware.Steam
+flatpak install flathub com.valvesoftware.Steam.CompatibilityTool.Proton-GE
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.gamescope
+flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud
 # Install RetroDeck
 flatpak install flathub net.retrodeck.retrodeck
 
