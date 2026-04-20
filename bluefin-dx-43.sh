@@ -34,7 +34,7 @@ flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.va
 # For running Steam apps in Gamescope, use this in the launch properties of Steam:
 # gamescope --fullscreen -H 2256 -S stretch -- %command%
 # gamescope --fullscreen -W 2256 -H 1504 -- %command%
-# gamescope --fullscreen -W 2256 -H 1504 --mangoapp -- %command%
+# gamescope --fullscreen -W 2256 -H 1504 --mangoapp --force-grab-cursor -- %command%
 # Gamescope rendering the game session at half resolution and outputting at native
 # gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 --mangoapp -- %command%
 # Gamescope with FSR
