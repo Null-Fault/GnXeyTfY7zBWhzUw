@@ -8,12 +8,16 @@ gsettings set org.gnome.mutter experimental-features "[]"
 # Flatpaks
 
 # Install Steam
-flatpak install flathub com.valvesoftware.Steam
-flatpak install flathub com.valvesoftware.Steam.CompatibilityTool.Proton-GE
-flatpak install flathub org.freedesktop.Platform.VulkanLayer.gamescope
-flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud
+flatpak install -y flathub com.valvesoftware.Steam
+SDK=$(flatpak info --show-metadata "$STEAM_APP"  | grep '^sdk=')
+# e.g. sdk=org.freedesktop.Sdk/x86_64/25.08
+RUNTIME=$(echo "$SDK" | sed 's|[^/]*/||')
+# e.g x86_64/25.08
+flatpak install -y flathub com.valvesoftware.Steam.CompatibilityTool.Proton-GE
+flatpak install -y flathub "org.freedesktop.Platform.VulkanLayer.gamescope/$RUNTIME"
+flatpak install -y flathub "org.freedesktop.Platform.VulkanLayer.MangoHud/$RUNTIME"
 # Install RetroDeck
-flatpak install flathub net.retrodeck.retrodeck
+flatpak install -y flathub net.retrodeck.retrodeck
 # This is so Steam can start RetroDeck
 flatpak override --user --talk-name=org.freedesktop.Flatpak com.valvesoftware.Steam
 # This improves startup
