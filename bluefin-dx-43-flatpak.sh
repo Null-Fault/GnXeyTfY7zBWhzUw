@@ -11,15 +11,15 @@ set -euo pipefail
 # Run gamescope
 # Select "ProtonGE (Flatpak)" under Compatibility 
 # For running Steam apps in Gamescope, use this in the launch properties of Steam:
-# gamescope --fullscreen -H 2256 -S stretch -- %command%
-# gamescope --fullscreen -W 2256 -H 1504 -- %command%
-# gamescope --fullscreen -W 2256 -H 1504 --mangoapp --force-grab-cursor -- %command%
+# gamescope --fullscreen -H 2256 -S stretch  -r 60 -- %command%
+# gamescope --fullscreen -W 2256 -H 1504  -r 60 -- %command%
+# gamescope --fullscreen -W 2256 -H 1504  -r 60 --mangoapp --force-grab-cursor -- %command%
 # Gamescope rendering the game session at half resolution and outputting at native
-# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 --mangoapp -- %command%
+# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752  -r 60 --mangoapp -- %command%
 # Gamescope with FSR
-# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 -F fsr --mangoapp -- %command%
+# gamescope --fullscreen -W 2256 -H 1504 -w 1128 -h 752 -F fsr  -r 60 --mangoapp -- %command%
 # For running Steam apps in Gamescope and MangoHud, use this in the launch properties of Steam:
-# gamescope --fullscreen -H 2256 -S stretch --mangoapp -- %command%
+# gamescope --fullscreen -H 2256 -S stretch  -r 60 --mangoapp -- %command%
 # To enable MangoHud for all Steam games:
 # flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
 
