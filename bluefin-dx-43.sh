@@ -32,7 +32,8 @@ flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.va
 
 # Select "ProtonGE (Flatpak)" under Compatibility 
 # For running Steam apps in Gamescope, use this in the launch properties of Steam:
-# gamescope -f -H 2256 -S stretch -- %command% 
+# gamescope -f -H 2256 -S stretch -- %command%
+# gamescope -f -W 2256 -H 1504 -- %command%
 # For running Steam apps in Gamescope and MangoHud, use this in the launch properties of Steam:
 # gamescope -f -H 2256 -S stretch -- mangohud %command% 
 # To enable MangoHud for all Steam games:
