@@ -9,7 +9,7 @@ gsettings set org.gnome.mutter experimental-features "[]"
 
 # Install Steam
 flatpak install -y flathub com.valvesoftware.Steam
-SDK=$(flatpak info --show-metadata "$STEAM_APP"  | grep '^sdk=')
+SDK=$(flatpak info --show-metadata "com.valvesoftware.Steam"  | grep '^sdk=')
 # e.g. sdk=org.freedesktop.Sdk/x86_64/25.08
 RUNTIME=$(echo "$SDK" | sed 's|[^/]*/||')
 # e.g x86_64/25.08
