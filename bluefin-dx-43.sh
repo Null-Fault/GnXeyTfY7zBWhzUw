@@ -32,9 +32,9 @@ flatpak override --user --system-talk-name=org.freedesktop.NetworkManager com.va
 
 
 # For running Steam apps in Gamescope, use this in the launch properties of Steam:
-# gamescope -f -H 1440 -S stretch -- %command% 
+# gamescope -f -H 2256 -S stretch -- %command% 
 # For running Steam apps in Gamescope and MangoHud, use this in the launch properties of Steam:
-# gamescope -f -H 1440 -S stretch -- mangohud %command% 
+# gamescope -f -H 2256 -S stretch -- mangohud %command% 
 # To enable MangoHud for all Steam games:
 # flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
 
