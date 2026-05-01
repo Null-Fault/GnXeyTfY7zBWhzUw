@@ -30,14 +30,6 @@ set -euo pipefail
 # To enable MangoHud for all Steam games:
 # flatpak override --user --env=MANGOHUD=1 com.valvesoftware.Steam
 
-# To configure launching flatpaks in Steam
-# flatpak override --user --talk-name=org.freedesktop.Flatpak net.retrodeck.retrodeck
-# RetroDeck can add itself to Steam
-# However the shortcut doesn't work
-# Change it to:
-# Target: /usr/bin/flatpak-spawn
-# Launch Options: --host flatpak run net.retrodeck.retrodeck
-
 # Bluefin default Gnome scaling
 # org.gnome.mutter experimental-features ['scale-monitor-framebuffer', 'xwayland-native-scaling']
 # To set back
@@ -57,7 +49,9 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 echo "==> Installing Steam..."
 flatpak install -y flathub "$STEAM"
 
-# This is so Steam can start other flatpaks, e.g. emulators installed via Flatpak
+# This is so Steam can start other flatpaks, e.g. emulators (RetroDeck) installed via Flatpak
+# Target: /usr/bin/flatpak-spawn
+# Launch Options: --host flatpak run net.retrodeck.retrodeck
 flatpak override --user --talk-name=org.freedesktop.Flatpak "$STEAM"
 # The speeds up startup but may expose network information
 flatpak override --user --system-talk-name=org.freedesktop.NetworkManager "$STEAM"
