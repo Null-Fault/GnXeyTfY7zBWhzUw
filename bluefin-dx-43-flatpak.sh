@@ -49,7 +49,21 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 echo "==> Installing Steam..."
 flatpak install -y flathub "$STEAM"
 
+# # https://retrodeck.readthedocs.io/en/cooker/wiki_steam/steam-input/
+
+# The following only applies to Linux Desktop:
+# You must have enable all Steam Inputs in Steam
+# # In Steam go to the Settings tab to go into the Steam Settings, press Controller, enable all Steam Inputs: Xbox PlayStation Switch Pro Generic.
+# Device templates like Steam Deck
+
+# Devices like the Steam Deck with a built-in controller you will be able to find the profile under Controller Settings -> Controller Layouts -> Templates.
+# Connect the external controller to find the templates for them
+
+# If you plan on using external controllers, you need to have the controller connected via either: Cable Bluetooth Wireless for the controller profile to show up automatically. You will find the profile under Controller Settings -> Controller Layouts -> Templates.
+
+
 # This is so Steam can start other flatpaks, e.g. emulators (RetroDeck) installed via Flatpak
+# https://retrodeck.readthedocs.io/en/cooker/wiki_steam/add-to-steam/#configuring-retrodeck-in-steam-flatpak
 # Target: /usr/bin/flatpak-spawn
 # Launch Options: --host flatpak run net.retrodeck.retrodeck
 flatpak override --user --talk-name=org.freedesktop.Flatpak "$STEAM"
